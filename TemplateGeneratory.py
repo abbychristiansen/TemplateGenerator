@@ -418,7 +418,7 @@ class TemplateGeneratorApp:
             if not save_folder:
                 return
 
-            pdf_folder = os.path.join(save_folder, "Generated_PDFs")
+            pdf_folder = os.path.normpath(os.path.join(save_folder, "Generated_PDFs"))
             os.makedirs(pdf_folder, exist_ok=True)
 
             for i, template in enumerate(self.templates):
@@ -454,7 +454,7 @@ class TemplateGeneratorApp:
                                     for paragraph in cell.paragraphs:
                                         replace_text(paragraph)
 
-                        temp_doc_path = os.path.join(pdf_folder, f'temp_{template}')
+                        temp_doc_path = os.path.normpath(os.path.join(pdf_folder, f'temp_{template}'))
                         doc.save(temp_doc_path)  # Save temporary document
                         logging.info(f"Temporary document saved at: {temp_doc_path}")
 
@@ -469,7 +469,7 @@ class TemplateGeneratorApp:
                             messagebox.showerror("Error", f"Failed to convert document to PDF: {str(convert_error)}")
                             continue  # Skip this template and continue with the next one
 
-                        pdf_file_path = os.path.join(pdf_folder, f"{vin_number}_{template.replace('.docx', '.pdf')}")
+                        pdf_file_path = os.path.normpath(os.path.join(pdf_folder, f"{vin_number}_{template.replace('.docx', '.pdf')}"))
                     
                         try:
                             os.rename(temp_doc_path.replace('.docx', '.pdf'), pdf_file_path)
